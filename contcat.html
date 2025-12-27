@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="webtoken" content="width=device-width, initial-scale=1.0" />
+    <title>تماس با ما – رمز‌خرید</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg-main: #0f0f1b;
+            --bg-card: #1a1b2a;
+            --bg-input: #222333;
+            --text-primary: #eaeaff;
+            --text-secondary: #a9b1d6;
+            --accent: #7e57c2;
+            --accent-light: #9575cd;
+            --success: #26c281;
+            --danger: #f06292;
+            --warning: #ffb300;
+            --info: #4fc3f7;
+            --border: #2d2e3f;
+        }
+
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* === Header === */
+        .header {
+            background: rgba(26, 27, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-circle {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            margin-left: 10px;
+            box-shadow: 0 3px 12px rgba(126, 87, 194, 0.4);
+        }
+
+        .main-nav a {
+            color: var(--text-secondary);
+            margin: 0 16px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: white;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .search-bar {
+            position: relative;
+        }
+
+        .search-bar input {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 10px 42px 10px 16px;
+            border-radius: 12px;
+            width: 260px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            width: 280px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .auth-btn:hover {
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* === Contact Page === */
+        .contact-container {
+            max-width: 1400px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.4rem;
+            margin: 20px 0 10px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .contact-info-box,
+        .contact-form-box {
+            background: var(--bg-card);
+            border-radius: 22px;
+            padding: 36px;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .contact-info-box:hover,
+        .contact-form-box:hover {
+            transform: translateY(-6px);
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .contact-method {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+
+        .method-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(126, 87, 194, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .method-text h4 {
+            margin: 0 0 6px;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .method-text p,
+        .method-text a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+
+        .method-text a:hover {
+            color: var(--accent-light);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 22px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.4);
+        }
+
+        /* Footer (همان قبلی) */
+        .footer {
+            background: linear-gradient(135deg, #151624, #0d0d17);
+            border-top: 1px solid var(--border);
+            padding: 50px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .footer-links h5 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .social-icons a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+        }
+
+        .footer-contact p {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.9rem;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="top-bar">
+            <a href="/" class="logo">
+                <div class="logo-circle">ر</div>
+                <span>رمز‌خرید</span>
+            </a>
+
+            <nav class="main-nav">
+                <a href="./test3.html" class="active">ارزهای دیجیتال</a>
+                <a href="./analysis.html">تحلیل‌ها</a>
+                <a href="news2.html">اخبار</a>
+                <a href="about.html">درباره ما</a>
+                <a href="contcat.html">ارتباط با ما </a>
+            </nav>
+
+            <div class="right-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="جستجو...">
+                </div>
+                <button class="auth-btn">ورود / ثبت‌نام</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Content -->
+    <div class="contact-container">
+        <h1 class="page-title">تماس با ما</h1>
+        <p class="page-subtitle">
+            سوالی دارید؟ پیشنهادی؟ یا فقط می‌خواهید سلام کنید؟
+            تیم رمز‌خرید همیشه آماده‌ی گفتگو با شماست.
+        </p>
+
+        <div class="contact-layout">
+            <!-- Contact Info -->
+            <div class="contact-info-box">
+                <h3 style="color: white; margin-bottom: 24px;">راه‌های ارتباطی</h3>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="method-text">
+                            <h4>آدرس دفتر</h4>
+                            <p>تهران، خیابان ولیعصر، برج آسمان، طبقه ۱۲</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="method-text">
+                            <h4>تماس تلفنی</h4>
+                            <p><a href="tel:+982198765432">۰۲۱-۹۸۷۶۵۴۳۲</a></p>
+                            <p><a href="tel:+989123456789">۰۹۱۲-۳۴۵-۶۷۸۹</a> (پشتیبانی فنی)</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-text">
+                            <h4>ایمیل</h4>
+                            <p><a href="mailto:info@ramz-kharid.ir">info@ramz-kharid.ir</a></p>
+                            <p><a href="mailto:support@ramz-kharid.ir">support@ramz-kharid.ir</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="method-text">
+                            <h4>ربات هوشمند</h4>
+                            <p>۲۴/۷ در تلگرام: <strong>@RamzKharidBot</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-box">
+                <h3 style="color: white; margin-bottom: 24px;">ارسال پیام</h3>
+                <div class="form-group">
+                    <label for="name">نام و نام خانوادگی</label>
+                    <input type="text" id="name" placeholder="نام شما">
+                </div>
+                <div class="form-group">
+                    <label for="email">آدرس ایمیل</label>
+                    <input type="email" id="email" placeholder="example@domain.com">
+                </div>
+                <div class="form-group">
+                    <label for="subject">موضوع پیام</label>
+                    <input type="text" id="subject" placeholder="پیشنهاد، گزارش خطا، همکاری و ...">
+                </div>
+                <div class="form-group">
+                    <label for="message">متن پیام</label>
+                    <textarea id="message" placeholder="پیام خود را اینجا بنویسید..."></textarea>
+                </div>
+                <button class="submit-btn">ارسال پیام</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="/" class="footer-logo">
+                        <span>ر</span>
+                        <span>رمز‌خرید</span>
+                    </a>
+                    <p class="mt-3 text-secondary" style="line-height: 1.6;">
+                        پلتفرم تحلیل پیشرفته رمزارزها با قابلیت پیش‌بینی قیمت بر پایه هوش مصنوعی و الگوریتم‌های کمی.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>لینک‌های سریع</h5>
+                        <ul>
+                            <li><a href="index.html">خانه</a></li>
+                            <li><a href="analysis.html">تحلیل‌ها</a></li>
+                            <li><a href="news.html">اخبار</a></li>
+                            <li><a href="about.html">درباره ما</a></li>
+                            <li><a href="contact.html" class="active">تماس با ما</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>پشتیبانی</h5>
+                        <ul>
+                            <li><a href="#">راهنما</a></li>
+                            <li><a href="#">سوالات متداول</a></li>
+                            <li><a href="#">خطاهای رایج</a></li>
+                            <li><a href="#">آپدیت‌ها</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer-links">
+                        <h5>تماس با ما</h5>
+                        <div class="footer-contact">
+                            <p><i class="fas fa-map-marker-alt"></i> تهران، خیابان ولیعصر، برج آسمان، طبقه ۱۲</p>
+                            <p><i class="fas fa-phone"></i> ۰۲۱-۹۸۷۶۵۴۳۲</p>
+                            <p><i class="fas fa-envelope"></i> info@ramz-kharid.ir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; ۱۴۰۴ رمز‌خرید. تمامی حقوق محفوظ است.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.submit-btn').addEventListener('click', function () {
+            alert('✅ پیام شما با موفقیت ارسال شد!\nتیم رمز‌خرید ظرف ۲۴ ساعت با شما تماس خواهد گرفت.');
+        });
+    </script>
+</body>
+
+</html>

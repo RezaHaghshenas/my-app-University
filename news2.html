@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>اخبار – رمز‌خرید</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg-main: #0f0f1b;
+            --bg-card: #1a1b2a;
+            --bg-input: #222333;
+            --text-primary: #eaeaff;
+            --text-secondary: #a9b1d6;
+            --accent: #7e57c2;
+            --accent-light: #9575cd;
+            --success: #26c281;
+            --danger: #f06292;
+            --warning: #ffb300;
+            --info: #4fc3f7;
+            --border: #2d2e3f;
+        }
+
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* === مشترک: هدر و فوتر از صفحه اصلی === */
+        .header {
+            background: rgba(26, 27, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-circle {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            margin-left: 10px;
+            box-shadow: 0 3px 12px rgba(126, 87, 194, 0.4);
+        }
+
+        .main-nav a {
+            color: var(--text-secondary);
+            margin: 0 16px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: white;
+        }
+
+        .tabs {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            scrollbar-width: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .tabs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+        }
+
+        .tabs a:hover {
+            background: rgba(126, 87, 194, 0.15);
+            color: white;
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+
+        .tabs a.active {
+            background: linear-gradient(135deg, rgba(126, 87, 194, 0.2), rgba(149, 117, 205, 0.25));
+            color: white;
+            border: 1px solid rgba(126, 87, 194, 0.5);
+            box-shadow: 0 4px 12px rgba(126, 87, 194, 0.2);
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* === Right Section (سرچ + دکمه) === */
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .search-bar {
+            position: relative;
+        }
+
+        .search-bar input {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 10px 42px 10px 16px;
+            border-radius: 12px;
+            width: 260px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            width: 280px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .auth-btn:hover {
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* === News Page Specific === */
+        .news-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 25px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* Featured News */
+        .featured-news {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        .featured-news:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(126, 87, 194, 0.35);
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            padding: 30px 25px 25px;
+            color: white;
+        }
+
+        .featured-overlay .badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .featured-overlay h2 {
+            font-size: 1.8rem;
+            margin: 0 0 12px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .featured-overlay p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .featured-overlay .meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+            margin-top: 20px;
+        }
+
+        .news-card {
+            background: var(--bg-card);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 24px rgba(126, 87, 194, 0.25);
+            border-color: rgba(126, 87, 194, 0.4);
+        }
+
+        .news-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-content .category {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .news-content h3 {
+            font-size: 1.25rem;
+            margin: 0 0 12px;
+            line-height: 1.4;
+            transition: color 0.2s;
+        }
+
+        .news-card:hover .news-content h3 {
+            color: var(--accent-light);
+        }
+
+        .news-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .category-badge {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 1px solid transparent;
+        }
+
+        .category-badge:hover {
+            background: rgba(126, 87, 194, 0.2);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .category-badge.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+        }
+
+        /* === Live News Table (جدول خبرهای لحظه‌ای) === */
+        .live-news-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            margin: 40px 0;
+            background: transparent;
+        }
+
+        .live-news-table thead th {
+            color: #8a93b0;
+            font-weight: 600;
+            padding: 14px 12px;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        .live-news-table tbody tr {
+            background: var(--bg-card);
+            border-radius: 18px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .live-news-table tbody tr:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.25);
+            background: rgba(26, 27, 42, 0.7);
+        }
+
+        .live-news-table td {
+            padding: 16px;
+            vertical-align: middle;
+        }
+
+        .news-source {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .news-source img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            padding: 4px;
+        }
+
+        .news-title {
+            font-weight: 600;
+            color: white;
+            font-size: 1rem;
+            max-width: 500px;
+        }
+
+        .news-time {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .news-tag {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tag-btc {
+            background: rgba(240, 98, 146, 0.15);
+            color: var(--danger);
+        }
+
+        .tag-eth {
+            background: rgba(126, 87, 194, 0.15);
+            color: var(--accent);
+        }
+
+        .tag-ai {
+            background: rgba(79, 195, 247, 0.15);
+            color: var(--info);
+        }
+
+        .tag-reg {
+            background: rgba(255, 179, 0, 0.15);
+            color: var(--warning);
+        }
+
+        /* Footer (همان صفحه اصلی) */
+        .footer {
+            background: linear-gradient(135deg, #151624, #0d0d17);
+            border-top: 1px solid var(--border);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .footer-links h5 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .social-icons a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+        }
+
+        .footer-contact p {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .search-bar input {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .featured-news {
+                height: 280px;
+            }
+
+            .featured-overlay h2 {
+                font-size: 1.3rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="top-bar">
+            <a href="/" class="logo">
+                <div class="logo-circle">ر</div>
+                <span>رمز‌خرید</span>
+            </a>
+
+            <nav class="main-nav">
+                <a href="index.html" class="active">ارزهای دیجیتال</a>
+                <a href="analysis.html">تحلیل‌ها</a>
+                <a href="news2.html">اخبار</a>
+                <a href="about.html">درباره ما</a>
+                <a href="contcat.html">ارتباط با ما </a>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="right-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="جستجو در اخبار...">
+                </div>
+                <button class="auth-btn">ورود / ثبت‌نام</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <a href="#" class="active">همه اخبار</a>
+            <a href="#">بیت‌کوین</a>
+            <a href="#">اتریوم</a>
+            <a href="#">آلت‌کوین‌ها</a>
+            <a href="#">قوانین</a>
+            <a href="#">هوش مصنوعی</a>
+        </div>
+    </header>
+
+    <!-- News Content -->
+    <div class="news-container">
+        <h1 class="section-title">آخرین اخبار دنیای کریپتو</h1>
+
+        <!-- Featured News -->
+        <div class="featured-news">
+            <img src="/eu-1024x576.jpg" alt="خبر ویژه" class="featured-img">
+            <div class="featured-overlay">
+                <span class="badge">خبر ویژه</span>
+                <h2>سامانه‌ی جدید نظارتی اتحادیه اروپا برای ارزهای دیجیتال در سال ۲۰۲۵ فعال می‌شود</h2>
+                <p>کمیسیون اروپا طرح جامعی برای نظارت بر تمامی صرافی‌های رمزارز در سطح اتحادیه اروپا ارائه داد که از
+                    ابتدای ۲۰۲۵ اجرا خواهد شد.</p>
+                <div class="meta">
+                    <span><i class="far fa-clock"></i> ۲ ساعت پیش</span>
+                    <span><i class="far fa-user"></i> تیم رمز‌خرید</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <span class="category-badge active">همه</span>
+            <span class="category-badge">بیت‌کوین</span>
+            <span class="category-badge">اتریوم</span>
+            <span class="category-badge">آلت‌کوین</span>
+            <span class="category-badge">نظامی</span>
+            <span class="category-badge">هوش مصنوعی</span>
+            <span class="category-badge">بازار</span>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-grid">
+            <div class="news-card">
+                <img src="/Bitcoin-Price-Slides-to-104000-as-Market-Fear-Hits-‘Extreme-Levels.png" class="news-img">
+                <div class="news-content">
+                    <div class="category">بیت‌کوین</div>
+                    <h3>قیمت بیت‌کوین به سطح ۹۰ هزار دلار بازگشت</h3>
+                    <p>پس از اصلاح قیمتی چند هفته‌ای، بیت‌کوین دوباره به مرز ۹۰ هزار دلار رسید.</p>
+                    <div class="news-meta">
+                        <span>۵ ساعت پیش</span>
+                        <span><i class="far fa-eye"></i> ۲.۴K</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <img src="/20220802_Ethereum-Merge-1-1200x675.webp" class="news-img">
+                <div class="news-content">
+                    <div class="category">اتریوم</div>
+                    <h3>اتریوم 2.0: ارتقای نهایی شبکه در آستانه اجرا</h3>
+                    <p>تیم توسعه‌دهنده اتریوم اعلام کرد که آخرین تست‌های شبکه موفقیت‌آمیز بوده.</p>
+                    <div class="news-meta">
+                        <span>۱ روز پیش</span>
+                        <span><i class="far fa-eye"></i> ۱.۸K</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <img src="/alt.jpg" class="news-img">
+                <div class="news-content">
+                    <div class="category">آلت‌کوین</div>
+                    <h3>توکن جدید Solana با رشد ۳۰۰٪ در ۲۴ ساعت!</h3>
+                    <p>یک پروژه ناشناخته در شبکه سولانا توانسته در کمتر از یک روز ارزش بازاری بیش از ۱۰۰ میلیون دلاری
+                        کسب کند.</p>
+                    <div class="news-meta">
+                        <span>۱۲ ساعت پیش</span>
+                        <span><i class="far fa-eye"></i> ۳.۱K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- === جدول خبرهای لحظه‌ای === -->
+        <h2 class="section-title" style="margin-top: 60px;">اخبار لحظه‌ای بازار</h2>
+        <table class="live-news-table">
+            <thead>
+                <tr>
+                    <th>منبع</th>
+                    <th>عنوان خبر</th>
+                    <th>دسته‌بندی</th>
+                    <th>زمان</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="news-source"><img src="https://coingecko.com/favicon.ico" alt="CoinGecko"> CoinGecko
+                        </div>
+                    </td>
+                    <td class="news-title">بیت‌کوین حمایت ۸۸ هزار دلاری را تست کرد</td>
+                    <td><span class="news-tag tag-btc">بیت‌کوین</span></td>
+                    <td class="news-time">۲ دقیقه پیش</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="news-source"><img src="https://cointelegraph.com/favicon.ico" alt="Cointelegraph">
+                            Cointelegraph</div>
+                    </td>
+                    <td class="news-title">اتریوم با اعلام ارتقای Dencun، رشد ۸٪یی داشت</td>
+                    <td><span class="news-tag tag-eth">اتریوم</span></td>
+                    <td class="news-time">۷ دقیقه پیش</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="news-source"><img src="https://decrypt.co/favicon.ico" alt="Decrypt"> Decrypt</div>
+                    </td>
+                    <td class="news-title">گوگل از ادغام هوش مصنوعی در بلاک‌چین خبر داد</td>
+                    <td><span class="news-tag tag-ai">هوش مصنوعی</span></td>
+                    <td class="news-time">۱۵ دقیقه پیش</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="news-source"><img src="https://theblock.co/favicon.ico" alt="The Block"> The Block
+                        </div>
+                    </td>
+                    <td class="news-title">SEC از ثبت‌نام صرافی‌های جدید خبر داد</td>
+                    <td><span class="news-tag tag-reg">قوانین</span></td>
+                    <td class="news-time">۲۳ دقیقه پیش</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="/" class="footer-logo">
+                        <span>ر</span>
+                        <span>رمز‌خرید</span>
+                    </a>
+                    <p class="mt-3 text-secondary" style="line-height: 1.6;">
+                        پلتفرم تحلیل پیشرفته رمزارزها با قابلیت پیش‌بینی قیمت بر پایه هوش مصنوعی و الگوریتم‌های کمی.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>لینک‌های سریع</h5>
+                        <ul>
+                            <li><a href="index.html">خانه</a></li>
+                            <li><a href="analysis.html">تحلیل‌ها</a></li>
+                            <li><a href="news.html">اخبار</a></li>
+                            <li><a href="#">درباره ما</a></li>
+                            <li><a href="#">تماس با ما</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>پشتیبانی</h5>
+                        <ul>
+                            <li><a href="#">راهنما</a></li>
+                            <li><a href="#">سوالات متداول</a></li>
+                            <li><a href="#">خطاهای رایج</a></li>
+                            <li><a href="#">آپدیت‌ها</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer-links">
+                        <h5>تماس با ما</h5>
+                        <div class="footer-contact">
+                            <p><i class="fas fa-map-marker-alt"></i> تهران، خیابان ولیعصر، برج آسمان، طبقه ۱۲</p>
+                            <p><i class="fas fa-phone"></i> ۰۲۱-۹۸۷۶۵۴۳۲</p>
+                            <p><i class="fas fa-envelope"></i> info@ramz-kharid.ir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; ۱۴۰۴ رمز‌خرید. تمامی حقوق محفوظ است.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.category-badge').forEach(badge => {
+            badge.addEventListener('click', function () {
+                document.querySelectorAll('.category-badge').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

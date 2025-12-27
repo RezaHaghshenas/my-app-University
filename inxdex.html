@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>رمز‌خرید – تحلیل هوشمند بازار کریپتو</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- ✅ Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-main: #0f0f1b;
+            --bg-card: #1a1b2a;
+            --bg-input: #222333;
+            --text-primary: #eaeaff;
+            --text-secondary: #a9b1d6;
+            --accent: #7e57c2;
+            --accent-light: #9575cd;
+            --success: #26c281;
+            --danger: #f06292;
+            --warning: #ffb300;
+            --info: #4fc3f7;
+            --border: #2d2e3f;
+        }
+
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* === Header === */
+        .header {
+            background: rgba(26, 27, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-circle {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            margin-left: 10px;
+            box-shadow: 0 3px 12px rgba(126, 87, 194, 0.4);
+        }
+
+        .main-nav a {
+            color: var(--text-secondary);
+            margin: 0 16px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: white;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .search-bar {
+            position: relative;
+        }
+
+        .search-bar input {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 10px 42px 10px 16px;
+            border-radius: 12px;
+            width: 260px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            width: 280px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .auth-btn:hover {
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 26px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        /* === Tabs === */
+        .tabs {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            scrollbar-width: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+        }
+
+        .tabs a:hover {
+            background: rgba(126, 87, 194, 0.15);
+            color: white;
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+
+        .tabs a.active {
+            background: linear-gradient(135deg, rgba(126, 87, 194, 0.2), rgba(149, 117, 205, 0.25));
+            color: white;
+            border: 1px solid rgba(126, 87, 194, 0.5);
+            box-shadow: 0 4px 12px rgba(126, 87, 194, 0.2);
+        }
+
+        /* === Hero Banner === */
+        .hero-banner {
+            background: linear-gradient(135deg, #1a1b2a 0%, #0f0f1b 100%);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .hero-banner::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(126, 87, 194, 0.1) 0%, transparent 70%);
+            animation: pulse 12s infinite linear;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 70px 20px 50px;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1.05);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin: 0 6px 8px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .hero-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-badge.badge-success {
+            background: linear-gradient(135deg, rgba(38, 194, 129, 0.2), rgba(38, 194, 129, 0.05));
+            color: var(--success);
+        }
+
+        .hero-badge.badge-info {
+            background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(79, 195, 247, 0.05));
+            color: var(--info);
+        }
+
+        .hero-badge.badge-warning {
+            background: linear-gradient(135deg, rgba(255, 179, 0, 0.2), rgba(255, 179, 0, 0.05));
+            color: var(--warning);
+        }
+
+        /* === Summary Cards === */
+        .summary-cards .card {
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.92rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .summary-cards .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .summary-cards strong {
+            display: block;
+            font-size: 1.4rem;
+            margin: 8px 0;
+            font-weight: 700;
+        }
+
+        .card-market {
+            background: rgba(38, 194, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .card-index {
+            background: rgba(38, 194, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .card-fear {
+            background: rgba(240, 98, 146, 0.1);
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .card-altseason {
+            background: rgba(126, 87, 194, 0.15);
+            border-left: 4px solid var(--accent);
+            color: var(--accent-light);
+        }
+
+        .card-rsi {
+            background: rgba(79, 195, 247, 0.1);
+            border-left: 4px solid var(--info);
+            color: var(--info);
+        }
+
+        /* === Filters Panel === */
+        .filters-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1400px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .apply-filters {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .apply-filters:hover {
+            background: var(--accent-light);
+        }
+
+        /* === Crypto Table === */
+        .crypto-table {
+            background: transparent;
+            color: var(--text-primary);
+            max-width: 1400px;
+            margin: 20px auto;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        .crypto-table thead th {
+            color: #8a93b0;
+            font-weight: 600;
+            padding: 14px 12px;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        .crypto-table tbody tr {
+            background: var(--bg-card);
+            border-radius: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .crypto-table tbody tr:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .coin-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            transition: background 0.2s;
+        }
+
+        .coin-info:hover {
+            background: rgba(126, 87, 194, 0.12);
+        }
+
+        .coin-info img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.3s;
+        }
+
+        .coin-info:hover img {
+            transform: scale(1.05);
+        }
+
+        .sparkline {
+            width: 100px;
+            height: 40px;
+            background: rgba(126, 87, 194, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading {
+            color: var(--accent);
+            font-size: 1.4rem;
+            padding: 40px;
+            text-align: center;
+        }
+
+        /* === Coin Detail Modal === */
+        .coin-detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .coin-detail-modal {
+            background: var(--bg-card);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .coin-detail-overlay.active {
+            display: flex;
+        }
+
+        .coin-detail-overlay.active .coin-detail-modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header h2 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+
+        .modal-header .symbol {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .close-modal-btn {
+            margin-left: auto;
+            background: var(--bg-input);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .price-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .price-box {
+            flex: 1;
+            min-width: 160px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .price-box .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .price-box .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Chart Tabs */
+        .chart-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .chart-tab {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chart-tab:hover,
+        .chart-tab.active {
+            background: rgba(126, 87, 194, 0.2);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            height: 200px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            position: relative;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .stat-item .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .stat-item .value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .description {
+            margin-top: 20px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* === Auth Modal === */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 2000;
+        }
+
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 90%;
+            max-width: 420px;
+            height: 100%;
+            background: var(--bg-card);
+            padding: 30px;
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-overlay.active,
+        .auth-modal.active {
+            display: block;
+            right: 0;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--bg-input);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .auth-tab {
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .auth-tab.active {
+            color: white;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-light);
+        }
+
+        /* === Footer === */
+        .footer {
+            background: linear-gradient(135deg, #151624, #0d0d17);
+            border-top: 1px solid var(--border);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .footer-links h5 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .social-icons a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+        }
+
+        .footer-contact p {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 992px) {
+            .main-nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .search-bar input {
+                width: 180px;
+            }
+
+            .price-row {
+                gap: 10px;
+            }
+
+            .price-box {
+                min-width: 130px;
+                padding: 12px;
+            }
+
+            .hero-content {
+                padding: 50px 15px 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .search-bar {
+                display: none;
+            }
+
+            .summary-cards .col {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .apply-filters {
+                align-self: flex-start;
+            }
+
+            .tabs {
+                padding: 0 12px;
+                gap: 6px;
+            }
+
+            .tabs a {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            .coin-detail-modal {
+                padding: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .chart-container {
+                height: 180px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="top-bar">
+            <a href="/" class="logo">
+                <div class="logo-circle">ر</div>
+                <span>رمز‌خرید</span>
+            </a>
+            <nav class="main-nav">
+                <a href="index.html" class="active">ارزهای دیجیتال</a>
+                <a href="analysis.html">تحلیل‌ها</a>
+                <a href="news2.html">اخبار</a>
+                <a href="about.html">درباره ما</a>
+                <a href="contcat.html">ارتباط با ما </a>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="right-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="globalSearch" placeholder="جستجوی ارز، نماد، دسته‌بندی...">
+                </div>
+                <button class="auth-btn" id="authBtn">ورود / ثبت‌نام</button>
+            </div>
+        </div>
+        <div class="tabs">
+            <a href="#" class="active">پرطرفدار</a>
+            <a href="#">در حال رشد</a>
+            <a href="#">پربازدید</a>
+            <a href="#">جدیدها</a>
+            <a href="#">سودآور</a>
+            <a href="#">دارایی‌های واقعی</a>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1 class="display-5 fw-bold mb-3"
+                style="background: linear-gradient(to right, var(--accent), var(--success)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                رمز‌خرید
+            </h1>
+            <p class="lead text-secondary mb-4">تحلیل هوشمند بازار رمزارزها با استفاده از هوش مصنوعی و داده‌های لحظه‌ای
+            </p>
+            <div class="d-flex justify-content-center flex-wrap gap-2">
+                <span class="hero-badge badge-success">پیش‌بینی قیمت</span>
+                <span class="hero-badge badge-info">تحلیل RSI و MACD</span>
+                <span class="hero-badge badge-warning">هشدارهای لحظه‌ای</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Cards -->
+    <section class="summary-cards container-fluid px-4 px-md-5">
+        <div class="row g-3">
+            <div class="col-6 col-md">
+                <div class="card card-market">ارزش کل بازار <strong>$3.02T</strong> <span>↑1.13%</span></div>
+            </div>
+            <div class="col-6 col-md">
+                <div class="card card-index">شاخص CMC20 <strong>$188.21</strong> <span>↑1.32%</span></div>
+            </div>
+            <div class="col-6 col-md">
+                <div class="card card-fear">احساسات بازار <strong>29</strong> <span>ترس</span></div>
+            </div>
+            <div class="col-6 col-md">
+                <div class="card card-altseason">فصل آلت‌کوین <strong>16/100</strong></div>
+            </div>
+            <div class="col-6 col-md">
+                <div class="card card-rsi">میانگین RSI <strong>51.3</strong> <span>ابتدای اشباع فروش</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters-panel">
+        <div class="filter-row">
+            <div class="filter-group">
+                <label>شبکه</label>
+                <select id="filterNetwork">
+                    <option value="">همه شبکه‌ها</option>
+                    <option value="ethereum">اتریوم</option>
+                    <option value="bsc">BSC</option>
+                    <option value="solana">سولانا</option>
+                    <option value="base">Base</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>دسته‌بندی</label>
+                <select id="filterCategory">
+                    <option value="">همه دسته‌ها</option>
+                    <option value="defi">DeFi</option>
+                    <option value="layer1">Layer 1</option>
+                    <option value="meme">Meme</option>
+                    <option value="ai">هوش مصنوعی</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>قیمت (USD)</label>
+                <input type="number" id="filterMinPrice" placeholder="حداقل" min="0">
+            </div>
+            <div class="filter-group">
+                <label>&nbsp;</label>
+                <input type="number" id="filterMaxPrice" placeholder="حداکثر" min="0">
+            </div>
+            <div class="filter-group">
+                <label>تغییر 24h (%)</label>
+                <input type="number" id="filterChange24h" placeholder="مثلاً 5">
+            </div>
+            <div class="filter-group">
+                <label>&nbsp;</label>
+                <button class="apply-filters" id="applyFilters">اعمال فیلترها</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crypto Table -->
+    <div class="table-responsive">
+        <table class="table crypto-table" id="cryptoTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>نام</th>
+                    <th>قیمت</th>
+                    <th>1h %</th>
+                    <th>24h %</th>
+                    <th>7d %</th>
+                    <th>ارزش بازار</th>
+                    <th>حجم (24h)</th>
+                    <th>عرضه گردشی</th>
+                    <th>روند 7 روزه</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="10" class="loading"><i class="fas fa-spinner fa-spin"></i> دریافت داده‌ها...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Coin Detail Modal -->
+    <div class="coin-detail-overlay" id="coinDetailOverlay">
+        <div class="coin-detail-modal" id="coinDetailModal">
+            <div class="modal-header">
+                <img id="modalCoinImage" src="" alt="coin">
+                <div>
+                    <h2 id="modalCoinName">نام ارز</h2>
+                    <div class="symbol" id="modalCoinSymbol">BTC</div>
+                </div>
+                <button class="close-modal-btn" id="closeCoinModal">&times;</button>
+            </div>
+
+            <div class="price-row">
+                <div class="price-box">
+                    <div class="label">قیمت فعلی</div>
+                    <div class="value" id="modalPrice">$0.00</div>
+                </div>
+                <div class="price-box">
+                    <div class="label">تغییر 24h</div>
+                    <div class="value" id="modalChange24h">0.00%</div>
+                </div>
+                <div class="price-box">
+                    <div class="label">ارزش بازار</div>
+                    <div class="value" id="modalMarketCap">$0</div>
+                </div>
+            </div>
+
+            <div class="chart-tabs">
+                <button class="chart-tab active" data-days="1">۲۴ ساعت</button>
+                <button class="chart-tab" data-days="7">۷ روز</button>
+                <button class="chart-tab" data-days="30">۳۰ روز</button>
+                <button class="chart-tab" data-days="365">۱ سال</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="coinChart" height="200"></canvas>
+            </div>
+
+            <div class="stats-grid" id="modalStats"></div>
+            <div class="description" id="modalDescription"></div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="auth-modal" id="authModal">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-tab="login">ورود</div>
+            <div class="auth-tab" data-tab="register">ثبت‌نام</div>
+        </div>
+        <div class="auth-form" id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">ایمیل</label>
+                <input type="email" id="loginEmail" placeholder="example@domain.com">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">رمز عبور</label>
+                <input type="password" id="loginPassword" placeholder="••••••••">
+            </div>
+            <button class="submit-btn">ورود به حساب</button>
+        </div>
+        <div class="auth-form d-none" id="registerForm">
+            <div class="form-group">
+                <label for="regName">نام کامل</label>
+                <input type="text" id="regName" placeholder="نام و نام خانوادگی">
+            </div>
+            <div class="form-group">
+                <label for="regEmail">ایمیل</label>
+                <input type="email" id="regEmail" placeholder="example@domain.com">
+            </div>
+            <div class="form-group">
+                <label for="regPassword">رمز عبور</label>
+                <input type="password" id="regPassword" placeholder="حداقل 8 کاراکتر">
+            </div>
+            <button class="submit-btn">ایجاد حساب جدید</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="/" class="footer-logo">
+                        <span>ر</span>
+                        <span>رمز‌خرید</span>
+                    </a>
+                    <p class="mt-3 text-secondary" style="line-height: 1.6;">
+                        پلتفرم تحلیل پیشرفته رمزارزها با قابلیت پیش‌بینی قیمت بر پایه هوش مصنوعی و الگوریتم‌های کمی.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>لینک‌های سریع</h5>
+                        <ul>
+                            <li><a href="#">خانه</a></li>
+                            <li><a href="#">تحلیل‌ها</a></li>
+                            <li><a href="#">اخبار</a></li>
+                            <li><a href="#">درباره ما</a></li>
+                            <li><a href="#">تماس با ما</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h5>پشتیبانی</h5>
+                        <ul>
+                            <li><a href="#">راهنما</a></li>
+                            <li><a href="#">سوالات متداول</a></li>
+                            <li><a href="#">خطاهای رایج</a></li>
+                            <li><a href="#">آپدیت‌ها</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer-links">
+                        <h5>تماس با ما</h5>
+                        <div class="footer-contact">
+                            <p><i class="fas fa-map-marker-alt"></i> تهران، خیابان ولیعصر، برج آسمان، طبقه ۱۲</p>
+                            <p><i class="fas fa-phone"></i> ۰۲۱-۹۸۷۶۵۴۳۲</p>
+                            <p><i class="fas fa-envelope"></i> info@ramz-kharid.ir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; ۱۴۰۴ رمز‌خرید. تمامی حقوق محفوظ است.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ========== Auth Modal ==========
+        const modalOverlay = document.getElementById('modalOverlay');
+        const authModal = document.getElementById('authModal');
+        const authBtn = document.getElementById('authBtn');
+        const closeModal = document.getElementById('closeModal');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        authBtn?.addEventListener('click', () => {
+            modalOverlay?.classList.add('active');
+            authModal?.classList.add('active');
+        });
+
+        closeModal?.addEventListener('click', () => {
+            modalOverlay?.classList.remove('active');
+            authModal?.classList.remove('active');
+        });
+
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const target = tab.dataset.tab;
+                if (target === 'login') {
+                    loginForm.classList.remove('d-none');
+                    registerForm.classList.add('d-none');
+                } else {
+                    loginForm.classList.add('d-none');
+                    registerForm.classList.remove('d-none');
+                }
+            });
+        });
+
+        // ========== Coin Detail Modal ==========
+        const coinDetailOverlay = document.getElementById('coinDetailOverlay');
+        const closeCoinModal = document.getElementById('closeCoinModal');
+        let currentCoins = [];
+        let coinChart = null;
+
+        document.getElementById('cryptoTable').addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            if (!row || row.querySelector('td[colspan]')) return;
+            const index = parseInt(row.cells[0].textContent) - 1;
+            const coin = currentCoins[index];
+            if (!coin) return;
+            openCoinDetail(coin);
+        });
+
+        closeCoinModal?.addEventListener('click', () => {
+            coinDetailOverlay.classList.remove('active');
+        });
+
+        coinDetailOverlay.addEventListener('click', (e) => {
+            if (e.target === coinDetailOverlay) {
+                coinDetailOverlay.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && coinDetailOverlay.classList.contains('active')) {
+                coinDetailOverlay.classList.remove('active');
+            }
+        });
+
+        async function openCoinDetail(coin) {
+            document.getElementById('modalCoinImage').src = coin.image;
+            document.getElementById('modalCoinName').textContent = coin.name;
+            document.getElementById('modalCoinSymbol').textContent = coin.symbol.toUpperCase();
+
+            const priceEl = document.getElementById('modalPrice');
+            priceEl.textContent = `$${(coin.current_price || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
+            priceEl.style.color = coin.price_change_percentage_24h_in_currency >= 0 ? 'var(--success)' : 'var(--danger)';
+
+            const change24h = coin.price_change_percentage_24h_in_currency || 0;
+            const changeEl = document.getElementById('modalChange24h');
+            changeEl.textContent = `${change24h >= 0 ? '+' : ''}${change24h.toFixed(2)}%`;
+            changeEl.style.color = change24h >= 0 ? 'var(--success)' : 'var(--danger)';
+
+            document.getElementById('modalMarketCap').textContent = `$${(coin.market_cap || 0).toLocaleString('en-US')}`;
+
+            await loadChartData(coin.id, 7);
+
+            const statsHtml = `
+                <div class="stat-item"><div class="label">حجم (24h)</div><div class="value">$${(coin.total_volume || 0).toLocaleString('en-US')}</div></div>
+                <div class="stat-item"><div class="label">عرضه گردشی</div><div class="value">${(coin.circulating_supply || 0).toLocaleString('en-US')} ${coin.symbol.toUpperCase()}</div></div>
+                <div class="stat-item"><div class="label">حداکثر عرضه</div><div class="value">${coin.max_supply ? coin.max_supply.toLocaleString('en-US') : 'نامحدود'}</div></div>
+                <div class="stat-item"><div class="label">رتبه بازار</div><div class="value">#${coin.market_cap_rank || '–'}</div></div>
+            `;
+            document.getElementById('modalStats').innerHTML = statsHtml;
+
+            const descriptions = {
+                bitcoin: "بیت‌کوین اولین و معروف‌ترین رمزارز جهان است که در سال 2009 توسط ساتوشی ناکاموتو ایجاد شد.",
+                ethereum: "اتریوم یک پلتفرم بلاک‌چینی است که امکان ایجاد قراردادهای هوشمند و برنامه‌های غیرمتمرکز (dApps) را فراهم می‌کند.",
+                solana: "سولانا یک بلاک‌چین با عملکرد بالا است که با سرعت تراکنش بالا و هزینه‌های پایین شناخته می‌شود.",
+                'binancecoin': "توکن بایننس (BNB) توکن بومی صرافی بایننس است و در اکوسیستم آن کاربردهای گسترده‌ای دارد.",
+                cardano: "کاردانو یک پلتفرم بلاک‌چینی است که بر پایه تحقیقات علمی و مهندسی شکل گرفته است."
+            };
+            const desc = descriptions[coin.id] || `راهنمای کامل ${coin.name} در رمز‌خرید. این ارز در زمینه‌های مختلفی مانند DeFi، NFT و پرداخت‌های دیجیتال استفاده می‌شود.`;
+            document.getElementById('modalDescription').textContent = desc;
+
+            coinDetailOverlay.classList.add('active');
+
+            // Setup chart tabs
+            document.querySelectorAll('.chart-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const days = tab.dataset.days;
+                    loadChartData(coin.id, parseInt(days));
+                });
+            });
+        }
+
+        async function loadChartData(coinId, days) {
+            const container = document.querySelector('.chart-container');
+            container.style.opacity = '0.6';
+            try {
+                const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}&interval=daily`);
+                const data = await res.json();
+
+                const ctx = document.getElementById('coinChart').getContext('2d');
+                if (coinChart) coinChart.destroy();
+
+                const prices = data.prices.map(p => p[1]);
+                const isPositive = prices[prices.length - 1] >= prices[0];
+                const borderColor = isPositive ? 'rgb(38, 194, 129)' : 'rgb(240, 98, 146)';
+                const backgroundColor = isPositive ? 'rgba(38, 194, 129, 0.1)' : 'rgba(240, 98, 146, 0.1)';
+
+                coinChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.prices.map(p => {
+                            const date = new Date(p[0]);
+                            if (days <= 1) return date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                            if (days <= 30) return date.toLocaleDateString('fa-IR', { day: 'numeric', month: 'short' });
+                            return date.getFullYear();
+                        }),
+                        datasets: [{
+                            label: 'قیمت (USD)',
+                            data: prices,
+                            borderColor: borderColor,
+                            backgroundColor: backgroundColor,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: 'rgba(26, 27, 42, 0.9)',
+                                titleColor: '#eaeaff',
+                                bodyColor: '#a9b1d6',
+                                borderColor: 'rgba(126, 87, 194, 0.3)',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function (context) {
+                                        return `قیمت: $${context.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                grid: { color: 'rgba(255,255,255,0.03)' },
+                                ticks: { color: '#a9b1d6', maxRotation: 0, font: { size: 10 } }
+                            },
+                            y: {
+                                display: true,
+                                grid: { color: 'rgba(255,255,255,0.03)' },
+                                ticks: { color: '#a9b1d6', callback: (val) => '$' + val.toLocaleString() }
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            axis: 'x',
+                            intersect: false
+                        },
+                        animation: {
+                            duration: 600,
+                            easing: 'easeOutQuart'
+                        }
+                    }
+                });
+                container.style.opacity = '1';
+            } catch (err) {
+                console.error('خطا در بارگذاری نمودار:', err);
+                container.style.opacity = '1';
+            }
+        }
+
+        // ========== Sparkline ==========
+        function generateSparkline(data, positive) {
+            if (!data || data.length < 2) return '<div class="sparkline" style="background:transparent;">–</div>';
+            const min = Math.min(...data);
+            const max = Math.max(...data);
+            const range = max - min || 1;
+            const points = data.map((v, i) => {
+                const x = (i / (data.length - 1)) * 100;
+                const y = 100 - ((v - min) / range) * 100;
+                return `${x},${y}`;
+            }).join(' ');
+            const color = positive ? '#26c281' : '#f06292';
+            return `<svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline fill="none" stroke="${color}" stroke-width="3" points="${points}" /></svg>`;
+        }
+
+        // ========== Data Loader ==========
+        const tbody = document.querySelector('#cryptoTable tbody');
+
+        async function loadData() {
+            try {
+                const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=true&price_change_percentage=1h,24h,7d');
+                currentCoins = await res.json();
+                renderTable(currentCoins);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="10" class="text-center py-4" style="color:#f06292;">خطا در بارگذاری: ${err.message}</td></tr>`;
+            }
+        }
+
+        function renderTable(coins) {
+            tbody.innerHTML = '';
+            coins.forEach((coin, i) => {
+                const p1h = coin.price_change_percentage_1h_in_currency || 0;
+                const p24h = coin.price_change_percentage_24h_in_currency || 0;
+                const p7d = coin.price_change_percentage_7d_in_currency || 0;
+                const spark = generateSparkline(coin.sparkline_in_7d?.price, p7d >= 0);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td>
+                        <div class="coin-info">
+                            <img src="${coin.image}" alt="${coin.name}" loading="lazy">
+                            <div>
+                                <div>${coin.name}</div>
+                                <small style="color:#8a93b0;">${coin.symbol.toUpperCase()}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>$${(coin.current_price || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}</td>
+                    <td class="${p1h >= 0 ? 'positive' : 'negative'}">${p1h >= 0 ? '+' : ''}${p1h.toFixed(2)}%</td>
+                    <td class="${p24h >= 0 ? 'positive' : 'negative'}">${p24h >= 0 ? '+' : ''}${p24h.toFixed(2)}%</td>
+                    <td class="${p7d >= 0 ? 'positive' : 'negative'}">${p7d >= 0 ? '+' : ''}${p7d.toFixed(2)}%</td>
+                    <td>$${(coin.market_cap || 0).toLocaleString('en-US')}</td>
+                    <td>$${(coin.total_volume || 0).toLocaleString('en-US')}</td>
+                    <td>${(coin.circulating_supply || 0).toLocaleString('en-US')} ${coin.symbol.toUpperCase()}</td>
+                    <td>${spark}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Filters & Search
+        document.getElementById('applyFilters')?.addEventListener('click', () => {
+            const minPrice = parseFloat(document.getElementById('filterMinPrice')?.value) || -Infinity;
+            const maxPrice = parseFloat(document.getElementById('filterMaxPrice')?.value) || Infinity;
+            const minChange24h = parseFloat(document.getElementById('filterChange24h')?.value) || -Infinity;
+            const filtered = currentCoins.filter(coin => {
+                if (coin.current_price < minPrice || coin.current_price > maxPrice) return false;
+                if (minChange24h !== -Infinity && coin.price_change_percentage_24h_in_currency < minChange24h) return false;
+                return true;
+            });
+            renderTable(filtered);
+        });
+
+        document.getElementById('globalSearch')?.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            if (!term) {
+                renderTable(currentCoins);
+                return;
+            }
+            const filtered = currentCoins.filter(coin =>
+                coin.name.toLowerCase().includes(term) || coin.symbol.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        // Init
+        loadData();
+        setInterval(loadData, 60000);
+    </script>
+</body>
+
+</html>
